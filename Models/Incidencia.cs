@@ -1,4 +1,4 @@
-using Enums;
+using PracticaApi.Enums;
 
 namespace PracticaApi.Models;
 

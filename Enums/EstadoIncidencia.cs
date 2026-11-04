@@ -1,4 +1,4 @@
-namespace Enums;
+namespace PracticaApi.Enums;
 
 public enum EstadoIncidencia
 {
