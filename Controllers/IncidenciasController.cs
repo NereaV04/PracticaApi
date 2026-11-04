@@ -16,4 +16,24 @@ public class IncidenciasController : ControllerBase
     };
 
     private static int siguienteId = incidencias.Count() + 1;
+
+    [HttpGet]
+    public ActionResult<List<Incidencia>> GetAll()
+    {
+        return Ok(incidencias);
+    }
+
+    [HttpGet("{id:int}")]
+    public ActionResult<Incidencia> GetById(int id)
+    {
+        foreach(var incidencia in incidencias)
+        {
+            if(incidencia.Id == id)
+            {
+                return Ok(incidencia);
+            }
+        }
+
+        return NotFound();
+    }
 }
