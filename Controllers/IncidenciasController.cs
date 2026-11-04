@@ -5,7 +5,7 @@ using PracticaApi.Enums;
 namespace PracticaApi.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("/api/[controller]")]
 public class IncidenciasController : ControllerBase
 {
     private static readonly List<Incidencia> incidencias = new List<Incidencia>
@@ -58,6 +58,11 @@ public class IncidenciasController : ControllerBase
     [HttpPut("{id:int}")]
     public ActionResult Put([FromBody] Incidencia incidencia, int id)
     {
+        if(string.IsNullOrEmpty(incidencia.Titulo) || string.IsNullOrEmpty(incidencia.Descripcion) || string.IsNullOrEmpty(incidencia.TecnicoAsignado) || incidencia.Prioridad <= 0)
+        {
+            return BadRequest("Error en los datos introducidos.");
+        }
+
         Incidencia? incidenciaModificar = incidencias.FirstOrDefault(i => i.Id == id);
 
         if (incidenciaModificar == null)
@@ -84,6 +89,25 @@ public class IncidenciasController : ControllerBase
         }
 
         incidencias.Remove(incidenciaEliminar);
+        return NoContent();
+    }
+
+    [HttpPut("{id:int}/resolver")]
+    public ActionResult PutResolver(int id)
+    {
+        Incidencia? incidenciaResolver = incidencias.FirstOrDefault(i => i.Id == id);
+
+        if(incidenciaResolver == null)
+        {
+            return NotFound();
+        }
+
+        if(incidenciaResolver.Estado == EstadoIncidencia.Resuelta)
+        {
+            return Conflict();
+        }
+
+        incidenciaResolver.Estado = EstadoIncidencia.Resuelta;
         return NoContent();
     }
 }
