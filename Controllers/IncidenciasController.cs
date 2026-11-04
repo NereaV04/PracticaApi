@@ -54,4 +54,36 @@ public class IncidenciasController : ControllerBase
         siguienteId++;
         return CreatedAtAction(nameof(GetById), new {id = incidencia.Id}, incidencia);
     }
+
+    [HttpPut("{id:int}")]
+    public ActionResult Put([FromBody] Incidencia incidencia, int id)
+    {
+        Incidencia? incidenciaModificar = incidencias.FirstOrDefault(i => i.Id == id);
+
+        if (incidenciaModificar == null)
+        {
+            return NotFound();
+        }
+
+        incidenciaModificar.Titulo = incidencia.Titulo;
+        incidenciaModificar.Descripcion = incidencia.Descripcion;
+        incidenciaModificar.TecnicoAsignado = incidencia.TecnicoAsignado;
+        incidenciaModificar.Prioridad = incidencia.Prioridad;
+
+        return NoContent();
+    }
+
+    [HttpDelete("{id:int}")]
+    public ActionResult Delete(int id)
+    {
+        Incidencia? incidenciaEliminar = incidencias.FirstOrDefault(i => i.Id == id);
+
+        if(incidenciaEliminar == null)
+        {
+            return NotFound();
+        }
+
+        incidencias.Remove(incidenciaEliminar);
+        return NoContent();
+    }
 }
