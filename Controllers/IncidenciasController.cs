@@ -36,4 +36,22 @@ public class IncidenciasController : ControllerBase
 
         return NotFound();
     }
+
+    [HttpPost()]
+    public ActionResult<Incidencia> Post([FromBody] Incidencia incidencia)
+    {
+        if(string.IsNullOrEmpty(incidencia.Titulo) || string.IsNullOrEmpty(incidencia.Descripcion) || string.IsNullOrEmpty(incidencia.TecnicoAsignado) || incidencia.Prioridad <= 0)
+        {
+            return BadRequest("Error en los datos introducidos.");
+        }
+
+        incidencia.Id = siguienteId;
+        // Lo hace en el constructor de la clase Incidencia.
+        incidencia.FechaCreacion = DateTime.Now;
+        incidencia.Estado = EstadoIncidencia.Abierta;
+
+        incidencias.Add(incidencia);
+        siguienteId++;
+        return CreatedAtAction(nameof(GetById), new {id = incidencia.Id}, incidencia);
+    }
 }

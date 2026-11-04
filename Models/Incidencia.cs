@@ -8,7 +8,7 @@ public class Incidencia
     public string Titulo {get; set;}
     public string Descripcion {get; set;}
     public string TecnicoAsignado {get; set;}
-    public DateTime FechaCreacion {get; set;}
+    public DateTime FechaCreacion {get; set;} = DateTime.Now;
     public int Prioridad {get; set;}
-    public EstadoIncidencia Estado {get; set;}
+    public EstadoIncidencia Estado {get; set;} = EstadoIncidencia.Abierta;
 }
