@@ -5,7 +5,7 @@ using PracticaApi.Enums;
 namespace PracticaApi.Controllers;
 
 [ApiController]
-[Route("/api/[controller]")]
+[Route("api/[controller]")]
 public class IncidenciasController : ControllerBase
 {
     private static readonly List<Incidencia> incidencias = new List<Incidencia>
@@ -40,7 +40,7 @@ public class IncidenciasController : ControllerBase
     [HttpPost()]
     public ActionResult<Incidencia> Post([FromBody] Incidencia incidencia)
     {
-        if(string.IsNullOrEmpty(incidencia.Titulo) || string.IsNullOrEmpty(incidencia.Descripcion) || string.IsNullOrEmpty(incidencia.TecnicoAsignado) || incidencia.Prioridad <= 0)
+        if(string.IsNullOrEmpty(incidencia.Titulo) || string.IsNullOrEmpty(incidencia.Descripcion) || incidencia.Prioridad <= 0 || incidencia.Prioridad > 5)
         {
             return BadRequest("Error en los datos introducidos.");
         }
@@ -58,7 +58,7 @@ public class IncidenciasController : ControllerBase
     [HttpPut("{id:int}")]
     public ActionResult Put([FromBody] Incidencia incidencia, int id)
     {
-        if(string.IsNullOrEmpty(incidencia.Titulo) || string.IsNullOrEmpty(incidencia.Descripcion) || string.IsNullOrEmpty(incidencia.TecnicoAsignado) || incidencia.Prioridad <= 0)
+        if(string.IsNullOrEmpty(incidencia.Titulo) || string.IsNullOrEmpty(incidencia.Descripcion) || incidencia.Prioridad <= 0 || incidencia.Prioridad > 5)
         {
             return BadRequest("Error en los datos introducidos.");
         }
